@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/angular.min.js"></script>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>Document</title>
+    <style>
+       
+        body{
+            background-color: #abd7e6;
+        }
+        .btn {
+            background-color: black;
+            color: whitesmoke;
+            margin-top: 5px;
+            width: 200px;
+        }
+
+        .btn:hover {
+            background-color: white;
+            color: black;
+        }
+    </style>
+    <script>
+        var module = angular.module("itsmodule", []);
+        module.controller("itscontroller", function ($scope, $http) {
+            $scope.JsonAry;
+            $scope.dofetch = function () {
+                $http.get("/fetch-profile").then(Ok, notOk);
+                function Ok(response) {
+                    $scope.JsonAry = response.data;
+                }
+                function notOk(response) {
+                    alert("error " + response.data);
+                }
+
+            }
+        })
+    </script>
+</head>
+
+<body ng-app="itsmodule" ng-controller="itscontroller">
+    <form action="">
+        <center>
+            
+                <div>
+                    <input type="button" value="Show Clients Record" ng-click="dofetch();" class="form-control btn">
+                </div>
+                <div>
+                    <table width="800" border="1" style="margin-top: 50px;" class="table table-dark table-striped">
+                        <tr align="center">
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Address</th>
+                            <th>State</th>
+                            <th>City</th>
+                            <th>Pin</th>
+                            <th>Pets</th>
+                            <th>Pic</th>
+
+                        </tr>
+                        <tr align="center" ng-repeat="row in JsonAry">
+                            <td>{{row.emailid}}</td>
+
+                            <td>{{row.cname}}</td>
+
+                            <td>{{row.contact}}</td>
+
+                            <td>{{row.address}}</td>
+
+                            <td>{{row.city}}</td>
+
+                            <td>{{row.state}}</td>
+
+                            <td>{{row.pin}}</td>
+
+                            <td>{{row.pets}}</td>
+
+                            <td><img src="uploads/{{row.pic}}" alt="" width="100" height="100"></td>
+
+                        </tr>
+
+                    </table>
+                </div>
+           
+        </center>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

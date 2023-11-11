@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        .body {
+            background-image: url(/Pics/download.jpg);
+            background-size: 100%;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            width: 57%;
+            height: 420px;
+            background-color: white;
+            margin-top: 100px;
+            border-radius: 9px;
+
+        }
+
+        .txt {
+            color: #65d3c4;
+            top: 80px;
+            left: 22%;
+            position: relative;
+            font-size: 17px;
+
+        }
+
+        .pic {
+            background-image: url(/Pics/signup.jpg);
+            background-size: 45%;
+            height: 400px;
+            background-repeat: no-repeat;
+            top: 35px;
+            position: relative;
+        }
+
+        .Mail {
+            bottom: 265px;
+            left: 170px;
+            position: relative;
+            border-radius: 9px;
+            border: 1px solid white;
+            box-shadow: 2px 2px 6px 0px #81d8cd;
+            background-image: url(/Pics/icons8-circled-user-male-skin-type-7-48.png);
+            background-repeat: no-repeat;
+            background-size: 23px;
+            background-position-x: 5px;
+            background-position-y: -2px;
+            width: 38%;
+            height: 21px;
+            text-indent: 30px;
+            padding-bottom: 11px;
+        }
+
+        .Pwd {
+            bottom: 215px;
+            left: 170px;
+            position: relative;
+            border-radius: 9px;
+            border: 1px solid white;
+            box-shadow: 2px 2px 6px 0px #81d8cd;
+            background-image: url(/Pics/icons8-secure-40.png);
+            background-repeat: no-repeat;
+            padding-bottom: 11px;
+            background-size: 20px;
+            background-position-x: 5px;
+
+            width: 38%;
+            height: 21px;
+            text-indent: 30px;
+
+        }
+
+        .anchor {
+            color: #81d8cd;
+            bottom: 200px;
+            left: 290px;
+            position: relative;
+            text-decoration: none;
+            font-size: 14px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        .btn1 {
+            color: white;
+            background-color: #81d8cd;
+            border-radius: 9px;
+            border: 0px solid white;
+            width: 90px;
+            height: 23px;
+            bottom: 110px;
+            left: 245px;
+            font-size: 14px;
+            position: relative;
+            padding-bottom: 3px;
+
+        }
+
+        .btn1:active {
+            box-shadow: 1px 1px 3px #81d8cd;
+        }
+
+        .rd1 {
+            bottom: 170px;
+            left: 45px;
+            position: relative;
+        }
+
+        .lbl1 {
+            bottom: 170px;
+            left: 110px;
+            position: relative;
+        }
+
+        .rd2 {
+            bottom: 170px;
+            left: 75px;
+            position: relative;
+        }
+
+        .lbl2 {
+            bottom: 170px;
+            left: 175px;
+            position: relative;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            $("#signup-btn").click(function () {
+                var mail = $("#txtEmail").val();
+                var pwd = $("#txtPwd").val();
+                var rad = $('input[name="type"]:checked').val();
+                var reg = /(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+                var resp = reg.test(pwd);
+                if (resp == false) {
+                    alert("Please fill a strong and valid password");
+                    return;
+                }
+                var regE = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+                var respE = regE.test(mail);
+                if (respE == false) {
+                    alert("please fill a valid email");
+                    return;
+                }
+
+                if ($('input[name="type"]:checked').length === 0) {
+                    alert("please select your type i.e client or care taker");
+                    return;
+                }
+
+
+
+                var obj = {
+                    type: "get",
+                    url: "/signup-process",
+                    data: {
+                        x: mail,
+                        y: pwd,
+                        z: rad
+                    }
+                }
+                $.ajax(obj).done(function (resp) {
+                    if(resp=="0")
+                    location.href="profile.html";
+                    else if(resp="1")
+                    location.href="login.html";
+                    
+                    else
+                    alert("invalid email or pwd");
+                    location.href = 'dash-client.html';
+                    alert("sucess");
+                }).fail(function (err) {
+                    alert("error showed up=" + JSON.stringify(err));
+                })
+
+            })
+
+        })
+    </script>
+</head>
+
+<body class="body">
+    <center>
+        <form action="" id="frmid" name="frm">
+
+            <div class="container">
+                <div>
+                    <label for="" class="txt">Sign Up</label>
+
+                </div>
+                <div class="pic">
+                    <!-- this is the space for the picture -->
+                </div>
+                <div>
+                    <input type="text" class="form-control Mail" id="txtEmail" name="txtEmailn" placeholder="Email ">
+                    <input type="password" class="form-control Pwd" id="txtPwd" name="txtPwdn" placeholder="Password ">
+                    <input type="button" value="Sign Up" class="btn1" id="signup-btn">
+                    <label for="" class="lbl1">Client</label>
+                    <input type="radio" value="Client" name="type" class="rd1 form-check-input">
+                    <label for="" class="lbl2">Care-Taker</label>
+                    <input type="radio" value="Care-Taker" name="type" class="rd2 form-check-input">
+
+                </div>
+
+            </div>
+        </form>
+    </center>
+</body>
+
+</html>
